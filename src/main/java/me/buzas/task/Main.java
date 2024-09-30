@@ -6,11 +6,9 @@ import me.buzas.task.abstraction.manager.ProjectManager;
 import me.buzas.task.cli.*;
 import me.buzas.task.data.ProjectDataAccessImpl;
 import me.buzas.task.manager.ProjectManagerImpl;
-import me.buzas.task.model.Project;
 
 public class Main {
     public static void main(String[] args) {
-        Project project = new Project("Example Project", "This is a sample project.");
         ProjectDataAccess projectDataAccess = new ProjectDataAccessImpl();
         ProjectManager projectManager = new ProjectManagerImpl(projectDataAccess);
 
