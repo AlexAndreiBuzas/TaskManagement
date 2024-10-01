@@ -10,8 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ProjectManagerTest {
@@ -28,11 +27,18 @@ public class ProjectManagerTest {
     public void testCreateProject() {
         String projectName = "New Project";
         String description = "This is a new project description";
-        Project project = new Project(projectName, description);
 
         projectManager.createProject(projectName, description);
 
         verify(projectDataAccess, times(1)).saveProject(any(Project.class));
+    }
+
+    @Test
+    public void testCreateProject_NullProjectName() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.createProject(null, "Valid description")
+        );
+        assertEquals("Project name cannot be null or empty.", exception.getMessage());
     }
 
     @Test
@@ -50,13 +56,37 @@ public class ProjectManagerTest {
     }
 
     @Test
+    public void testGetProject_NonExistentProject() {
+        when(projectDataAccess.loadProject("Non-existent")).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.getProject("Non-existent")
+        );
+        assertEquals("Project with name 'Non-existent' does not exist.", exception.getMessage());
+    }
+
+    @Test
     public void testUpdateProject() {
         Project project = new Project("Test Project", "Initial Description");
-        project.setDescription("Updated Description");
 
+        when(projectDataAccess.loadProject(project.getName())).thenReturn(project);
+
+        project.setDescription("Updated Description");
         projectManager.updateProject(project);
 
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testUpdateProject_NonExistentProject() {
+        Project project = new Project("Non-existent", "Some description");
+
+        when(projectDataAccess.loadProject(project.getName())).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.updateProject(project)
+        );
+        assertEquals("Project with name 'Non-existent' does not exist.", exception.getMessage());
     }
 
     @Test
@@ -64,11 +94,21 @@ public class ProjectManagerTest {
         String projectName = "Test Project";
 
         Project project = new Project(projectName, "Description");
-        when(projectDataAccess.loadProject(projectName)).thenReturn(project); // Mock that the project exists
+        when(projectDataAccess.loadProject(projectName)).thenReturn(project);
 
         projectManager.deleteProject(projectName);
 
         verify(projectDataAccess, times(1)).deleteProject(projectName);
+    }
+
+    @Test
+    public void testDeleteProject_NonExistentProject() {
+        when(projectDataAccess.loadProject("Non-existent")).thenReturn(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.deleteProject("Non-existent")
+        );
+        assertEquals("Project with name 'Non-existent' does not exist.", exception.getMessage());
     }
 
     @Test
@@ -84,8 +124,20 @@ public class ProjectManagerTest {
         User actualUser = project.getUsers().get(expectedUser.getId());
 
         assertEquals(expectedUser, actualUser);
-
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testAddUserToProject_NonExistentProject() {
+        String projectName = "Non-existent";
+        when(projectDataAccess.loadProject(projectName)).thenReturn(null);
+
+        User user = new User(1, "john_doe", "Engineering", "Developer");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.addUserToProject(projectName, user)
+        );
+        assertEquals("Project with name '" + projectName + "' does not exist.", exception.getMessage());
     }
 
     @Test
@@ -100,8 +152,21 @@ public class ProjectManagerTest {
         projectManager.removeUserFromProject(projectName, user.getId());
 
         Assertions.assertNull(project.getUsers().get(user.getId()));
-
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testRemoveUserFromProject_NonExistentUser() {
+        String projectName = "Test Project";
+        int userId = 99;
+        Project project = new Project(projectName, "Description");
+
+        when(projectDataAccess.loadProject(projectName)).thenReturn(project);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.removeUserFromProject(projectName, userId)
+        );
+        assertEquals("User with ID '" + userId + "' does not exist in project '" + projectName + "'.", exception.getMessage());
     }
 
     @Test
@@ -117,8 +182,19 @@ public class ProjectManagerTest {
         Task actualTask = project.getTasks().get(expectedTask.getId());
 
         assertEquals(expectedTask, actualTask);
-
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testAddTaskToProject_NonExistentProject() {
+        when(projectDataAccess.loadProject("Non-existent")).thenReturn(null);
+
+        Task task = new Task(1, "Task 1", "Description 1", 1, "Open", new java.util.Date());
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.addTaskToProject("Non-existent", task)
+        );
+        assertEquals("Project with name 'Non-existent' does not exist.", exception.getMessage());
     }
 
     @Test
@@ -133,8 +209,21 @@ public class ProjectManagerTest {
         projectManager.removeTaskFromProject(projectName, task.getId());
 
         Assertions.assertNull(project.getTasks().get(task.getId()));
-
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testRemoveTaskFromProject_NonExistentTask() {
+        String projectName = "Test Project";
+        int taskId = 99;
+        Project project = new Project(projectName, "Description");
+
+        when(projectDataAccess.loadProject(projectName)).thenReturn(project);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.removeTaskFromProject(projectName, taskId)
+        );
+        assertEquals("Task with ID '" + taskId + "' does not exist in project '" + projectName + "'.", exception.getMessage());
     }
 
     @Test
@@ -151,7 +240,21 @@ public class ProjectManagerTest {
         projectManager.assignTaskToUser(projectName, task.getId(), user.getId());
 
         assertEquals(user.getId(), task.getAssignedUserId());
-
         verify(projectDataAccess, times(1)).updateProject(project);
+    }
+
+    @Test
+    public void testAssignTaskToUser_NonExistentTask() {
+        String projectName = "Test Project";
+        int taskId = 99;
+        User user = new User(1, "john_doe", "Engineering", "Developer");
+        Project project = new Project(projectName, "Description");
+
+        when(projectDataAccess.loadProject(projectName)).thenReturn(project);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                projectManager.assignTaskToUser(projectName, taskId, user.getId())
+        );
+        assertEquals("Task with ID '" + taskId + "' does not exist in project '" + projectName + "'.", exception.getMessage());
     }
 }

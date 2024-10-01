@@ -1,25 +1,21 @@
 package me.buzas.task.cli;
 
 import me.buzas.task.abstraction.cli.*;
-import me.buzas.task.abstraction.manager.ProjectManager;
-import me.buzas.task.model.Project;
 
 import java.util.Scanner;
 
 public class TaskManagerCommandHandlerImpl implements TaskManagerCommandHandler {
-    private final ProjectManager projectManager;
     private final ProjectCommandHandler projectHandler;
     private final TaskCommandHandler taskHandler;
     private final UserCommandHandler userHandler;
     private final ReportCommandHandler reportHandler;
     private final Scanner scanner;
 
-    public TaskManagerCommandHandlerImpl(ProjectCommandHandler projectHandler, TaskCommandHandler taskHandler, UserCommandHandler userHandler, ReportCommandHandler reportHandler, ProjectManager projectManager) {
+    public TaskManagerCommandHandlerImpl(ProjectCommandHandler projectHandler, TaskCommandHandler taskHandler, UserCommandHandler userHandler, ReportCommandHandler reportHandler) {
         this.projectHandler = projectHandler;
         this.taskHandler = taskHandler;
         this.userHandler = userHandler;
         this.reportHandler = reportHandler;
-        this.projectManager = projectManager;
         scanner = new Scanner(System.in);
     }
 
@@ -30,8 +26,8 @@ public class TaskManagerCommandHandlerImpl implements TaskManagerCommandHandler 
         while (running) {
             System.out.println("\n--- Task Management System ---");
             System.out.println("1. Create Project");
-            System.out.println("2. Add User to Project");  // Moved to 2nd position
-            System.out.println("3. Add Task");  // Moved to 3rd position
+            System.out.println("2. Add User to Project");
+            System.out.println("3. Add Task");
             System.out.println("4. Assign Task to User");
             System.out.println("5. Remove Task");
             System.out.println("6. View Report");
@@ -40,7 +36,7 @@ public class TaskManagerCommandHandlerImpl implements TaskManagerCommandHandler 
             System.out.print("Select an option: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -95,31 +91,11 @@ public class TaskManagerCommandHandlerImpl implements TaskManagerCommandHandler 
         taskHandler.removeTask(scanner);
     }
 
-    private void viewReport() {
-        System.out.print("Enter project name: ");
-        String projectName = scanner.nextLine();
-
-        Project project = projectManager.getProject(projectName);
-        if (project == null) {
-            System.out.println("Project does not exist.");
-        } else {
-            reportHandler.viewReport(project);
-        }
+    public void viewReport() {
+        reportHandler.viewReport(scanner);
     }
 
     private void exportReport() {
-        System.out.print("Enter project name to export report: ");
-        String projectName = scanner.nextLine();
-        Project project = projectManager.getProject(projectName);
-
-        if (project == null) {
-            System.out.println("Project does not exist.");
-            return;
-        }
-
-        System.out.print("Enter file name to save the report: ");
-        String fileName = scanner.nextLine();
-
-        reportHandler.exportReport(project, fileName);
+        reportHandler.exportReport(scanner);
     }
 }

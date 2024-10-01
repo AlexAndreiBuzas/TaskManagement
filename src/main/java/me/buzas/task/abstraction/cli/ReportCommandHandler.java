@@ -1,9 +1,9 @@
 package me.buzas.task.abstraction.cli;
 
-import me.buzas.task.model.Project;
+import java.util.Scanner;
 
 public interface ReportCommandHandler {
-    void viewReport(Project project);
+    void viewReport(Scanner scanner);
 
-    void exportReport(Project project, String fileName);
+    void exportReport(Scanner scanner);
 }

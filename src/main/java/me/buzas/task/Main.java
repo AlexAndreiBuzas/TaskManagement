@@ -15,9 +15,9 @@ public class Main {
         ProjectCommandHandlerImpl projectHandler = new ProjectCommandHandlerImpl(projectManager);
         TaskCommandHandlerImpl taskHandler = new TaskCommandHandlerImpl(projectManager);
         UserCommandHandlerImpl userHandler = new UserCommandHandlerImpl(projectManager);
-        ReportCommandHandlerImpl reportHandler = new ReportCommandHandlerImpl();
+        ReportCommandHandlerImpl reportHandler = new ReportCommandHandlerImpl(projectManager);
 
-        TaskManagerCommandHandler managerHandler = new TaskManagerCommandHandlerImpl(projectHandler, taskHandler, userHandler, reportHandler, projectManager);
+        TaskManagerCommandHandler managerHandler = new TaskManagerCommandHandlerImpl(projectHandler, taskHandler, userHandler, reportHandler);
 
         managerHandler.runMenu();
     }

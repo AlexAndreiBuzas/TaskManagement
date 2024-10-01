@@ -49,10 +49,10 @@ public class ProjectManagerImpl implements ProjectManager {
 
     @Override
     public void updateProject(Project project) {
-        if (project == null) {
-            throw new IllegalArgumentException("Project name cannot be null or empty.");
+        Project existingProject = projectDataAccess.loadProject(project.getName());
+        if (existingProject == null) {
+            throw new IllegalArgumentException("Project with name '" + project.getName() + "' does not exist.");
         }
-
         projectDataAccess.updateProject(project);
     }
 
