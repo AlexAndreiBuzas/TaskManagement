@@ -31,7 +31,6 @@ public class ReportCommandHandlerImpl implements ReportCommandHandler {
                 return;
             }
 
-            // Print project report
             System.out.println("\n--- Project Report ---");
             System.out.println("Project Name: " + project.getName());
             System.out.println("Description: " + project.getDescription());
@@ -82,7 +81,6 @@ public class ReportCommandHandlerImpl implements ReportCommandHandler {
                 return;
             }
 
-            // Export project report to file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 writer.write("--- Project Report ---\n");
                 writer.write("Project Name: " + project.getName() + "\n");
