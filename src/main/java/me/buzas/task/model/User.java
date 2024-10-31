@@ -6,6 +6,7 @@ import java.util.Map;
 public class User {
     private final int id;
     private String username;
+    private String password;
     private String team;
     private String positionInsideTeam;
     private final Map<Integer, Task> task;
@@ -13,6 +14,15 @@ public class User {
     public User(int id, String username, String team, String positionInsideTeam) {
         this.id = id;
         this.username = username;
+        this.team = team;
+        this.positionInsideTeam = positionInsideTeam;
+        this.task = new HashMap<>();
+    }
+
+    public User(int id, String username, String password, String team, String positionInsideTeam) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
         this.team = team;
         this.positionInsideTeam = positionInsideTeam;
         this.task = new HashMap<>();
@@ -28,6 +38,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getTeam() {

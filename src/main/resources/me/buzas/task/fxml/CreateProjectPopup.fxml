@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="8.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="me.buzas.task.ui.controller.CreateProjectPopupController">
+
+    <TextField fx:id="projectNameField" promptText="Enter project name"/>
+    <TextField fx:id="projectDescriptionField" promptText="Enter project description"/>
+    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0" spacing="32.0">
+        <Button onAction="#handleCancel" text="Cancel"/>
+        <Button onAction="#handleCreateProject" text="Create"/>
+    </HBox>
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+    </padding>
+
+</VBox>

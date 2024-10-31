@@ -145,4 +145,9 @@ public class ProjectManagerImpl implements ProjectManager {
 
         updateProject(project);
     }
+
+    @Override
+    public List<Project> loadAllProjects() {
+        return projectDataAccess.loadAllProjects();
+    }
 }

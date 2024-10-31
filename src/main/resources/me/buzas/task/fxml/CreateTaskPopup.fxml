@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="8.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.buzas.task.ui.controller.CreateTaskPopupController">
+
+    <TextField fx:id="taskNameField" promptText="Enter task name" />
+    <TextField fx:id="taskDescriptionField" promptText="Enter task description" />
+    <ComboBox fx:id="taskPriorityComboBox" prefHeight="26.0" prefWidth="200.0" promptText="Select task priority" />
+    <ComboBox fx:id="taskStatusComboBox" prefHeight="26.0" prefWidth="200.0" promptText="Select task status" />
+    <DatePicker fx:id="taskDueDatePicker" prefHeight="26.0" prefWidth="201.0" promptText="Select due date" />
+
+    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0" spacing="32.0">
+        <Button onAction="#handleCancel" text="Cancel" />
+        <Button onAction="#handleCreateTask" text="Create" />
+    </HBox>
+
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+    </padding>
+</VBox>

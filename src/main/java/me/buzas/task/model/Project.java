@@ -50,7 +50,32 @@ public class Project {
         users.put(user.getId(), user);
     }
 
+    public void removeTask(int taskId) {
+        tasks.remove(taskId);
+    }
+
+    public void removeUser(int userId) {
+        users.remove(userId);
+    }
+
     public List<Task> getTasksAssignedToUser(int userId) {
         return tasks.values().stream().filter(task -> task.getAssignedUserId() == userId).collect(Collectors.toList());
+    }
+
+    public void loadTasks(List<Task> loadedTasks) {
+        for (Task task : loadedTasks) {
+            this.addTask(task);
+        }
+    }
+
+    public void loadUsers(List<User> loadedUsers) {
+        for (User user : loadedUsers) {
+            this.addUser(user);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

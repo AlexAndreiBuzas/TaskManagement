@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="me.buzas.task.fxml.TaskView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-</AnchorPane>
+<VBox prefHeight="400" prefWidth="525" spacing="8.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="me.buzas.task.ui.controller.TaskController">
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
+        <Label text="Select Project:" />
+        <ComboBox fx:id="projectComboBox" onAction="#onProjectSelected" prefWidth="200.0" promptText="Choose a project" />
+    </HBox>
+
+    <VBox fx:id="tasksContainer" spacing="8.0" VBox.vgrow="ALWAYS">
+        <Label fx:id="noTasksLabel" style="-fx-font-size: 16px;" text="No Tasks Available" visible="false" />
+    </VBox>
+
+    <HBox alignment="BOTTOM_CENTER" prefHeight="0.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
+        <Button onAction="#openCreateTaskPopup" text="Create New Task" />
+        <VBox.margin>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+        </VBox.margin>
+    </HBox>
+
+    <padding>
+        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+    </padding>
+</VBox>

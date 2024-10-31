@@ -4,6 +4,8 @@ import me.buzas.task.model.Project;
 import me.buzas.task.model.Task;
 import me.buzas.task.model.User;
 
+import java.util.List;
+
 public interface ProjectManager {
     void createProject(String projectName, String description);
 
@@ -24,4 +26,6 @@ public interface ProjectManager {
     void addUserToProject(String projectName, User user);
 
     void removeUserFromProject(String projectName, int userId);
+
+    List<Project> loadAllProjects();
 }

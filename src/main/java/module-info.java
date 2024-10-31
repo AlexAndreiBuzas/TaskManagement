@@ -3,6 +3,7 @@ module TaskManagement {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.desktop;
+    requires java.sql;
 
     exports me.buzas.task.ui.view to javafx.graphics;
 

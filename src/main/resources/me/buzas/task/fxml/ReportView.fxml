@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="me.buzas.task.fxml.ReportView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox prefHeight="400" prefWidth="525" spacing="8.0" xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.buzas.task.ui.controller.ReportController">
+    <Label text="Select Project"/>
+    <ComboBox fx:id="projectComboBox"/>
 
-</AnchorPane>
+    <Button onAction="#generateReport" text="Generate Report"/>
+    <TextArea fx:id="reportTextArea" editable="false" prefHeight="252.0" prefWidth="509.0" wrapText="true"/>
+
+    <Button onAction="#exportReport" text="Export Report"/>
+    <padding>
+        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+    </padding>
+</VBox>
